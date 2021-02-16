@@ -1,0 +1,28 @@
+<ion-content style="--background:#003346">
+  <ion-grid>
+    <ion-row class="login-form">
+      <ion-col >
+        <ion-title><div class="login-title">Log In</div></ion-title>
+          <div>
+            <!-- <ion-label class="loginLbl">Log In</ion-label> -->
+            <!-- <ion-label>Email</ion-label> -->
+            <ion-item class="text-fields">            
+              <ion-input type="text" placeholder="Email" [(ngModel)]="username"></ion-input>
+            </ion-item>
+            <!-- <ion-label>Password</ion-label> -->
+            <ion-item class="text-fields">
+              <ion-input type="password" placeholder="Password" [(ngModel)]="password" ></ion-input>
+            </ion-item>
+          </div>
+          <div>
+            <ion-button style="background:#0099FF " class="loginBtn" (click)="login()">Login</ion-button>
+            <div style="padding: 10px 0;">
+            <ion-label>Don't have an account?  </ion-label>
+            <ion-label><a style="align-items: center; color: #0099FF;" href="./register">Create</a></ion-label>
+            <!-- <ion-button class="registerBtn" href="./register">Signup</ion-button> -->
+            </div>
+          </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

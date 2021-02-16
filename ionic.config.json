@@ -1,0 +1,8 @@
+{
+  "name": "SmartShopping",
+  "integrations": {
+    "capacitor": {},
+    "cordova": {}
+  },
+  "type": "angular"
+}

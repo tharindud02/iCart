@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Add an Item</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-button expand="full" (click)="startScan()">
+    <ion-icon slot="start" name="br-scanner"></ion-icon>
+    Start Scan
+  </ion-button>
+
+<ion-button expand="full" (click)="reset()" color="warning" *ngIf="scanActive">
+  <ion-icon slot="start" name="refresh"></ion-icon>
+  Reset
+</ion-button>
+<video #video [hidden]="!scanActive" width="100%"></video>
+ <canvas #canvas hidden></canvas>
+
+ <ion-button expand="full" (click)="stopScan()" color="danger" *ngIf="scanActive">
+  <ion-icon slot="start" name="close"></ion-icon>
+ Stop Scan
+</ion-button>
+
+<ion-card *ngIf="scanResult">
+  <ion-card-header>
+    <ion-card-title>Recent Scaned Item</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-row>  Name       : {{ name }} </ion-row>
+    <ion-row>  Price      : {{ price }} </ion-row>
+    <ion-row>  Discount   : {{ discount }}</ion-row>
+    <ion-row>  Expiry Date: {{ expDate | date:'longDate' }}</ion-row>
+  </ion-card-content>
+</ion-card>
+
+</ion-content>

@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-searchbar  [(ngModel)]="searchName"  (ionInput)="search($event)"></ion-searchbar>
+   </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<ion-list>
+  <ion-item *ngFor="let d of itemName">
+    <ion-label>
+      {{ d.name}}
+    </ion-label>
+    <ion-label>
+      {{ d.available }}
+    </ion-label>
+  </ion-item>
+</ion-list>
+<ion-item *ngIf="itemName?.length < 1">
+  <ion-label class="notFound"> 
+    <p>No Data Found!</p>
+  </ion-label>
+  </ion-item>
+</ion-content>
