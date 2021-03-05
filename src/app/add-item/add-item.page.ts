@@ -17,7 +17,7 @@ import * as firebase from 'firebase';
 export class AddItemPage{
   public itemName;
   public getItemName;
-
+  public availableStatus;
 
   constructor(private alertCtrl: AlertController,private loadingCtrl: LoadingController, private cartService: CartService,private qrScanner: QRScanner,public platform:Platform,public dialog:Dialogs,private firestore: AngularFirestore) { }
 
@@ -27,6 +27,21 @@ export class AddItemPage{
 
 
   startScan(){
+    // this.availablityStock = this.UpdateQtyDB();
+    // alert("Available :" + this.availablityStock);
+
+    // if(this.availablityStock == true){
+    //    this.cartService.setProduct(this.id, this.name, this.price, this.amount,this.expDate, this.discount, this.weight);
+    //    this.AddedItem();
+    // }else{
+    //    this.OutOfStock();
+    // }
+
+
+
+
+
+
 // Optionally request the permission early
 
     this.qrScanner.prepare()
@@ -169,12 +184,12 @@ export class AddItemPage{
   public today = new Date();
   public discount: any;
   public weight:any;
-  public teamAdminCollection;
+  public availablityStock;
 
   splitText(scanResult){
     // console.log(this.scanResult);
     var textSplited = scanResult.split(",");
-    this.id=parseInt(textSplited[0]);
+    this.id=textSplited[0];
     this.name=textSplited[1];
     this.price=parseInt(textSplited[2]);
     this.amount=parseInt(textSplited[3]);
@@ -183,7 +198,7 @@ export class AddItemPage{
     this.weight = parseInt(textSplited[6]);
 
     
-    if(!(this.id == null) || this.name == null || !(this.price > 0) || !(this.amount > 0) || this.expDate == null || !(this.discount >= 0) || !(this.weight >= 0)){
+    if((this.id == null) || (this.name == null) || !(this.price > 0) || !(this.amount > 0) || this.expDate == null || !(this.discount >= 0) || !(this.weight >= 0)){
       this.AddedItemFail();
     }else{      
     // const data=[ this.id, this.name, this.price, this.amount];
@@ -197,9 +212,18 @@ export class AddItemPage{
       this.ExpiredAlert();
     }else{
       console.log('Not Expired');
-      this.cartService.setProduct(this.id, this.name, this.price, this.amount,this.expDate, this.discount, this.weight);
-      this.UpdateQtyDB(this.id,this.amount);
-      this.AddedItem();
+      // this.UpdateQtyDB(this.id,this.amount);
+      // this.cartService.setProduct(this.id, this.name, this.price, this.amount,this.expDate, this.discount, this.weight);
+      // this.AddedItem();
+      this.UpdateQtyDB(this.id, this.name, this.price, this.amount,this.expDate, this.discount, this.weight);
+      // alert("Available :" + this.availablityStock);
+
+      // if(this.availablityStock == true){
+      //    this.cartService.setProduct(this.id, this.name, this.price, this.amount,this.expDate, this.discount, this.weight);
+      //    this.AddedItem();
+      // }else{
+      //    this.OutOfStock();
+      // }
     }  
   }
 }
@@ -246,8 +270,8 @@ export class AddItemPage{
 
   // }
 
-  async UpdateQtyDB(itemCode,qty){  
-    const scanQty = Number(qty);  
+   UpdateQtyDB(id,name,price,amount,expDate,discount,weight){  
+    const scanQty = Number(amount);  
 
     // const dbCollection = this.firestore.collection('items');
     // (await this.getQuarry(itemCode)).subscribe((res) => {
@@ -268,7 +292,7 @@ export class AddItemPage{
         const query = firebase
         .firestore()
         .collection("items")
-        .where("code", "==", itemCode).get()
+        .where("code", "==", id).get()
         .then(snapshot => {
       
           if (snapshot.empty) {
@@ -282,13 +306,15 @@ export class AddItemPage{
             //  console.log(document.data());
                 // Check valid qty
                 if((scanQty > 0) && (scanQty > document.data().quantity)){
-                  // console.log('Out of Stock');
+                  console.log('Out of Stock');
                   this.OutOfStock();
                 }else{
                   // console.log('Reduce from DB');
                   this.firestore.collection('items').doc(document.id).update({
                     quantity : (document.data().quantity-scanQty)
-                  })
+                  });
+                  this.cartService.setProduct(id,name,price,amount,expDate,discount,weight);
+                  this.AddedItem();
                 }
 
           } else {
@@ -296,6 +322,5 @@ export class AddItemPage{
           }
           })
         })
-
   }
 }

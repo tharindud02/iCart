@@ -32,8 +32,8 @@ ion-content ion-toolbar {
 
 .homeBtn{
   width: 100%;
- border: 5px;
- border-radius: 100%;
+  border: none;
+  border-radius: 50%;
 }
 
 .menu-icon{
@@ -41,7 +41,7 @@ ion-content ion-toolbar {
 }
 
 .menu-bar{
-  position: absolute;
+  position: fixed;
   bottom: 0;
   width: 100%;
 }
@@ -69,3 +69,6 @@ ion-content ion-toolbar {
   font-size: 12px;
 }
 
+.items-cart-list{
+  padding-bottom: 80px;
+}

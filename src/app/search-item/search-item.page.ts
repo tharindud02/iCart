@@ -51,9 +51,7 @@ export class SearchItemPage implements OnInit {
       this.tableHeadTags = false;
     }else{
       this.tableHeadTags = true;
-      console.log(this.firestore.collection('items', ref => ref.where('name', '==', 'apple')).valueChanges());
-      // return this.firestore.collection('items', ref => ref.where('name', '==', 'apple')).valueChanges();
-      // return this.firestore.collection('items', ref => ref.limit(10).orderBy('name').startAt(start).endAt(end)).valueChanges();
+      return this.firestore.collection('items', ref => ref.limit(10).orderBy('name').startAt(start).endAt(end)).valueChanges();
     } 
     return this.firestore.collection('Empty').valueChanges();   
    }

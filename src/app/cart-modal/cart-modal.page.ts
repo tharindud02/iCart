@@ -20,8 +20,8 @@ export class CartModalPage implements OnInit {
     this.product = this.CartService.getProduct();
   }
 
-  removeCartItem(Product){
-    this.CartService.removeProduct(Product);
+  removeCartItem(product){
+    this.CartService.removeProduct(product);
   }
 
   decrementQty(product){
