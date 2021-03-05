@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,9 @@ export class LoginPage implements OnInit {
   username: string =""
   password: string =""
 
-constructor( public afAuth: AngularFireAuth, public alert: AlertController, public router: Router) { }
+constructor( public afAuth: AngularFireAuth, public alert: AlertController, public router: Router,
+  private googlePlus: GooglePlus
+  ) { }
 
 
   ngOnInit() {
@@ -44,6 +47,14 @@ async showAlert(header: string , message: string){
  })
  await alert.present()
 }
+
+
+googleLogin(){
+  this.googlePlus.login({})
+  .then(res => this.router.navigate(['/home']) )
+  .catch(err => console.error(err));
+}
+
 
 
 }

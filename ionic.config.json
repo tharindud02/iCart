@@ -1,7 +1,9 @@
 {
   "name": "SmartShopping",
   "integrations": {
-    "capacitor": {},
+    "capacitor": {
+      "enabled": false
+    },
     "cordova": {}
   },
   "type": "angular"

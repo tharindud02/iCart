@@ -19,7 +19,7 @@ import { QRScanner } from '@ionic-native/qr-scanner/ngx';
 import { Dialogs } from '@ionic-native/dialogs/ngx';
 import { AngularFirestore,AngularFirestoreModule } from '@angular/fire/firestore';
 import { FormsModule } from '@angular/forms';
-
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -41,6 +41,7 @@ import { FormsModule } from '@angular/forms';
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     QRScanner,
+    GooglePlus,
     Dialogs
   ],
   bootstrap: [AppComponent]

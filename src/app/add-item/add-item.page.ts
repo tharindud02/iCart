@@ -4,6 +4,9 @@ import { CartService } from '../cart.service';
 import jsQR from "jsqr";
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
 import { Dialogs } from '@ionic-native/dialogs/ngx';
+import { AngularFirestore } from '@angular/fire/firestore';
+import * as firebase from 'firebase';
+
 
 
 @Component({
@@ -12,13 +15,14 @@ import { Dialogs } from '@ionic-native/dialogs/ngx';
   styleUrls: ['./add-item.page.scss'],
 })
 export class AddItemPage{
+  public itemName;
+  public getItemName;
 
-  constructor(private alertCtrl: AlertController,private loadingCtrl: LoadingController, private cartService: CartService,private qrScanner: QRScanner,public platform:Platform,public dialog:Dialogs) { }
 
-                                          // qrScan : any;
+  constructor(private alertCtrl: AlertController,private loadingCtrl: LoadingController, private cartService: CartService,private qrScanner: QRScanner,public platform:Platform,public dialog:Dialogs,private firestore: AngularFirestore) { }
 
-                                            
-                                          // constructor(public platform:Platform,public dialog:Dialogs, private qrScanner: QRScanner,private cartService:CartService,private alertCtrl: AlertController) { }
+   // qrScan : any;                                            
+ // constructor(public platform:Platform,public dialog:Dialogs, private qrScanner: QRScanner,private cartService:CartService,private alertCtrl: AlertController) { }
 
 
 
@@ -71,7 +75,7 @@ export class AddItemPage{
   }
 
   ngOnInit() {
-        
+
   }
 
   async startScanStart(){
@@ -157,14 +161,15 @@ export class AddItemPage{
   //   toast.present();
   // }
 
-  private id: any;
-  private name: any;
-  private price: any;
-  private amount: any;
-  private expDate: Date;
-  private today = new Date();
-  private discount: any;
-  private weight:any;
+  public id: any;
+  public name: any;
+  public price: any;
+  public amount: any;
+  public expDate: Date;
+  public today = new Date();
+  public discount: any;
+  public weight:any;
+  public teamAdminCollection;
 
   splitText(scanResult){
     // console.log(this.scanResult);
@@ -178,7 +183,7 @@ export class AddItemPage{
     this.weight = parseInt(textSplited[6]);
 
     
-    if(!(this.id > 0) || this.name == null || !(this.price > 0) || !(this.amount > 0) || this.expDate == null || !(this.discount >= 0) || !(this.weight >= 0)){
+    if(!(this.id == null) || this.name == null || !(this.price > 0) || !(this.amount > 0) || this.expDate == null || !(this.discount >= 0) || !(this.weight >= 0)){
       this.AddedItemFail();
     }else{      
     // const data=[ this.id, this.name, this.price, this.amount];
@@ -192,7 +197,8 @@ export class AddItemPage{
       this.ExpiredAlert();
     }else{
       console.log('Not Expired');
-      this.cartService.setProduct(this.id, this.name, this.price, this.amount,this.expDate, this.discount, this.weight );
+      this.cartService.setProduct(this.id, this.name, this.price, this.amount,this.expDate, this.discount, this.weight);
+      this.UpdateQtyDB(this.id,this.amount);
       this.AddedItem();
     }  
   }
@@ -223,5 +229,73 @@ export class AddItemPage{
     });
     alertExpered.present();
   }
-}
 
+
+  async OutOfStock(){
+    let alertExpered = await this.alertCtrl.create({
+      message: "Sorry, This item is been Out Of Stock",
+      buttons: ['Close']
+    });
+    alertExpered.present();
+    this.stopScan();
+  }
+  // async getQuarry(itemCode){
+
+  //   // console.log(this.firestore.collection('items', ref => ref.where('name', '==', 'apple')).valueChanges());
+  //   return this.firestore.collection('items', ref => ref.where('code', '==', itemCode )).valueChanges();
+
+  // }
+
+  async UpdateQtyDB(itemCode,qty){  
+    const scanQty = Number(qty);  
+
+    // const dbCollection = this.firestore.collection('items');
+    // (await this.getQuarry(itemCode)).subscribe((res) => {
+    //   this.itemName = res[0];
+    //   console.log('Item Name:',this.itemName.name);
+    //   console.log('Item Qty:',this.itemName.quantity);
+    //   console.log('Scan Qty', scanQty);
+
+    //   // Check valid qty
+    //   if((scanQty > 0) && (scanQty > this.itemName.quantity)){
+    //     console.log('Out of Stock');
+    //   }else{
+    //     console.log('Reduce from DB');
+    //    }
+    // });
+
+
+        const query = firebase
+        .firestore()
+        .collection("items")
+        .where("code", "==", itemCode).get()
+        .then(snapshot => {
+      
+          if (snapshot.empty) {
+          // No Results
+            console.log("No Results");
+          }
+      
+          snapshot.docs.forEach(document => {
+          if (document.exists) { 
+            // Do Something
+            //  console.log(document.data());
+                // Check valid qty
+                if((scanQty > 0) && (scanQty > document.data().quantity)){
+                  // console.log('Out of Stock');
+                  this.OutOfStock();
+                }else{
+                  // console.log('Reduce from DB');
+                  this.firestore.collection('items').doc(document.id).update({
+                    quantity : (document.data().quantity-scanQty)
+                  })
+                }
+
+          } else {
+            // Do Something Else
+          }
+          })
+        })
+
+  }
+}

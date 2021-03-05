@@ -4,6 +4,8 @@ import { ModalController } from '@ionic/angular';
 import { CartService } from '../cart.service';
 import { CartModalPage } from '../cart-modal/cart-modal.page';
 import { PriceLimitPage } from '../price-limit/price-limit.page';
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -20,7 +22,8 @@ export class HomePage implements OnInit {
   priceLimit=0;
   Total=0;
 
-  constructor(private cartService: CartService, private modalCtrl: ModalController) {}
+  constructor(private cartService: CartService, private modalCtrl: ModalController,
+    private googlePlus: GooglePlus, public router: Router,) {}
 
   
   ngOnInit(){
@@ -46,6 +49,8 @@ export class HomePage implements OnInit {
     modalOpenCart.present();
   }
 
+  
+
   async setPriceLimit(){
     let modalPriceLimit= await this.modalCtrl.create({
       component: PriceLimitPage,
@@ -54,4 +59,9 @@ export class HomePage implements OnInit {
     modalPriceLimit.present();
   }
 
+  googleLogout(){
+    this.googlePlus.logout()
+    .then(res => this.router.navigate(['/login']) )
+    .catch(err => console.error(err));
+  }
 }

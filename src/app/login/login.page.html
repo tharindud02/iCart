@@ -1,8 +1,15 @@
-<ion-content style="--background:#003346">
+<ion-content style="--background:#438cff91">
   <ion-grid>
+    <ion-row>
+      <ion-col>
+        <div class="top-logo">
+        <ion-img src="assets/images/logo.png"></ion-img>
+        </div>
+      </ion-col>
+    </ion-row>
     <ion-row class="login-form">
       <ion-col >
-        <ion-title><div class="login-title">Log In</div></ion-title>
+        <ion-title class="login-title"><div >Welcome...</div></ion-title>
           <div>
             <!-- <ion-label class="loginLbl">Log In</ion-label> -->
             <!-- <ion-label>Email</ion-label> -->
@@ -15,12 +22,18 @@
             </ion-item>
           </div>
           <div>
-            <ion-button style="background:#0099FF " class="loginBtn" (click)="login()">Login</ion-button>
-            <div style="padding: 10px 0;">
+            <ion-button class="loginBtn" (click)="login()">Login
+              <ion-icon name="log-in"></ion-icon>
+            </ion-button>
+            <div style="padding: 20px 0; font-size: 13px; --color:#ffffff;">
             <ion-label>Don't have an account?  </ion-label>
             <ion-label><a style="align-items: center; color: #0099FF;" href="./register">Create</a></ion-label>
             <!-- <ion-button class="registerBtn" href="./register">Signup</ion-button> -->
             </div>
+            <ion-button (click)="googleLogin()" class="googleSignInBtn">
+             <span class="googleSignInIcon"><ion-icon name="logo-google"></ion-icon></span>
+             <span>SIGN IN WITH GOOGLE</span> 
+            </ion-button>
           </div>
       </ion-col>
     </ion-row>

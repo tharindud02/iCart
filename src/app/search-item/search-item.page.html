@@ -1,26 +1,51 @@
+<ion-app>
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar style="--background:#438cff91">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
-    <ion-searchbar  [(ngModel)]="searchName"  (ionInput)="search($event)"></ion-searchbar>
+    <ion-searchbar style="--background:#438cff91" [(ngModel)]="searchName"  (ionInput)="search($event)" ></ion-searchbar>
    </ion-toolbar>
 </ion-header>
 
 <ion-content>
-<ion-list>
-  <ion-item *ngFor="let d of itemName">
+  <div *ngIf="tableHeadTags == true; then trueTable else falseTable"></div>
+<ion-list >
+<!-- Template for Product details -->
+<ng-template #trueTable>
+  <ion-item  >
     <ion-label>
-      {{ d.name}}
+      Name
     </ion-label>
     <ion-label>
-      {{ d.available }}
+      Unit
+    </ion-label>
+    <ion-label>
+      Price(LKR)
     </ion-label>
   </ion-item>
+</ng-template>
+<ng-template #falseTable>
+<!-- <ion-item>
+  Enter Product Name
+</ion-item> -->
+</ng-template>
+
+<!-- Product Details from Search results -->
+  <ion-item style="--background:#121212"  *ngFor="let i of itemName"   class="table-content-list">
+    <ion-label>
+      {{i.name}}
+    </ion-label>
+    <ion-label>
+      {{i.unit}}
+    </ion-label>
+    <ion-label>
+      {{i.price}}
+    </ion-label>
+  </ion-item>
+  
+
+
 </ion-list>
-<ion-item *ngIf="itemName?.length < 1">
-  <ion-label class="notFound"> 
-    <p>No Data Found!</p>
-  </ion-label>
-  </ion-item>
 </ion-content>
+</ion-app>

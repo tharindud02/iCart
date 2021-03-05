@@ -1,15 +1,30 @@
-<ion-content>
+<ion-content  style="--background:#438cff91">
   <div class="ion-text-end">
     <ion-button (click)="close()" fill="clear" color="dark">
       <ion-icon name="close" slot="start"></ion-icon>
     </ion-button>
   </div>
+
+  <ion-row>
+    <ion-col>
+      <div class="headling-price-limit">
+        <h3>Set Your Price Limit</h3>
+      </div>
+    </ion-col>
+  </ion-row>
+
   <ion-grid class="priceLimit">
-    <label>Enter Price Limit
-      <input type="text" class="setPriceText" [(ngModel)]="priceLimit" >
-    </label>
-    <ion-button expand="full" class="setPriceBtn" (click)="setLimit()">
-      Set
-    </ion-button>
+    <ion-row>
+      <div class="priceLimit-input">
+        <input type="text" class="setPriceText" placeholder="Enter Price Limit" [(ngModel)]="priceLimit" >
+      </div>
+    </ion-row>
+    <ion-row>
+        <div class="priceLimit-set">
+          <ion-button expand="full" class="setPriceBtn" (click)="setLimit()">
+            Set
+          </ion-button>
+      </div>
+    </ion-row>
   </ion-grid>
 </ion-content>

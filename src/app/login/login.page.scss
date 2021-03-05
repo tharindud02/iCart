@@ -1,7 +1,7 @@
 .loginBtn{
     width: 100%;
-    color: #000000;
-    font-weight: 600;
+    color: #ffffff;
+    // font-weight: 600;
 
 }
 
@@ -15,13 +15,14 @@
 }
 
 .login-title{
+    --color:#ffffff;
     text-align: center;
     padding:10px 0;
 }
 
 .login-form{
-    background-color: #ffffff47;
-    margin-top: 50%;
+    // background-color: #ffffff47;
+    // margin-top: 50%;
     width: 100%;
     height: 100%;
     text-align: center;
@@ -37,3 +38,17 @@ ion-content{
     margin-top: 10vh;
 }
 
+.googleSignInBtn{
+    width: 100%;
+    --background: #DD4B39 !important;
+}
+
+.googleSignInIcon{
+    padding: 0px 10px;
+}
+
+.top-logo {
+    width: 30%;
+    margin: 0px calc(50% - 55px);
+    margin-top: 20%;
+}

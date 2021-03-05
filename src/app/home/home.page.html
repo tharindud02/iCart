@@ -7,8 +7,17 @@
 </ion-header> -->
 
 <ion-content [fullscreen]="true">
-  
+
+
   <ion-list>
+      <ion-row>
+        <ion-col>
+          <button class="logout-btn" (click)="googleLogout()">
+            <!-- <span class="logout-text">Logout</span> -->
+            <span class="logout-icon"> <ion-icon name="log-out"></ion-icon></span>
+          </button>
+        </ion-col>
+      </ion-row>
     <ion-fab vertical="top" horizontal="end" slot="fixed">
       <ion-fab-button (click)="openCart()" #cart>
         <div class="cart-length">{{cartItemCount | async}} </div>

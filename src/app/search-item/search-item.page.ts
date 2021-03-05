@@ -15,6 +15,7 @@ export class SearchItemPage implements OnInit {
   endAt = new Subject();
 
   itemName;
+  tableHeadTags = false;
   text;
 
   startobs= this.startAt.asObservable();
@@ -27,12 +28,16 @@ export class SearchItemPage implements OnInit {
     combineLatest(this.startobs,this.endobs).subscribe((value)=> {
       this.firequery(value[0],value[1]).subscribe((name) => {
         this.itemName = name;
+        // console.log(this.itemName);
       })
     });
+      
   }
 
+
+
   search($event){
-    console.log(this.itemName);
+    // console.log(this.itemName);
     let q = $event.target.value;
     this.text = q;
     this.startAt.next(q);
@@ -43,9 +48,13 @@ export class SearchItemPage implements OnInit {
     // console.log('Start:',start, 'End', end);
     if(this.text == start && end == "\uf8ff"){
       console.log('Empty');
+      this.tableHeadTags = false;
     }else{
-      return this.firestore.collection('data', ref => ref.limit(4).orderBy('name').startAt(start).endAt(end)).valueChanges();
-    }  
-    return this.firestore.collection('empty').valueChanges();   
+      this.tableHeadTags = true;
+      console.log(this.firestore.collection('items', ref => ref.where('name', '==', 'apple')).valueChanges());
+      // return this.firestore.collection('items', ref => ref.where('name', '==', 'apple')).valueChanges();
+      // return this.firestore.collection('items', ref => ref.limit(10).orderBy('name').startAt(start).endAt(end)).valueChanges();
+    } 
+    return this.firestore.collection('Empty').valueChanges();   
    }
 }
