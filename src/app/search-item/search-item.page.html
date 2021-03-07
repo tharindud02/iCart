@@ -4,7 +4,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
-    <ion-searchbar style="--background:#438cff91" [(ngModel)]="searchName"  (ionInput)="search($event)" ></ion-searchbar>
+    <ion-searchbar class="search-bar-item" style="--background:#438cff91" [(ngModel)]="searchName"  (ionInput)="search($event)" ></ion-searchbar>
    </ion-toolbar>
 </ion-header>
 
@@ -33,11 +33,11 @@
 
 <!-- Product Details from Search results -->
   <ion-item  *ngFor="let i of itemName"   class="table-content-list">
-    <ion-label>
+    <ion-label class="Item-Name-DB">
       {{i.name}}
     </ion-label>
     <ion-label>
-      {{i.unit}}
+      {{i.weight}}
     </ion-label>
     <ion-label>
       {{i.price}}

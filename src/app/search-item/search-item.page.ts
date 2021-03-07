@@ -38,7 +38,7 @@ export class SearchItemPage implements OnInit {
 
   search($event){
     // console.log(this.itemName);
-    let q = $event.target.value;
+    let q = $event.target.value.toLowerCase();
     this.text = q;
     this.startAt.next(q);
     this.endAt.next(q + "\uf8ff");
