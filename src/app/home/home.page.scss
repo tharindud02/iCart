@@ -72,3 +72,7 @@ ion-content ion-toolbar {
 .items-cart-list{
   padding-bottom: 80px;
 }
+
+.item-name-app::first-letter{
+  text-transform: uppercase;
+}

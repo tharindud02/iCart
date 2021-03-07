@@ -54,7 +54,7 @@ export class CartService {
         }
 
         removeProduct(product){
-          alert('Product :' + product.name);
+          // alert('Product :' + product.name);
           
           for(let p of this.data){
             if(product.id == p.id){
